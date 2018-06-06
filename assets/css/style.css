@@ -1,0 +1,33 @@
+/*****************************/
+/* MAIN STYLE                */
+/*****************************/
+
+body {
+  background-color: #fff;
+  color: #333333;
+  font-family: 'Lucida Grande', Arial, sans-serif;
+  font-size: 14px;
+}
+
+a {
+  color: #003399;
+  background-color: transparent;
+  font-weight: normal;
+}
+
+h1 {letter-spacing: -2px;}
+h2, h3, h4 {letter-spacing: -1px;}
+
+/*****************************/
+/* COMMON CLASES             */
+/*****************************/
+
+.center {text-align: center;}
+
+.success {color: green;}
+.error, .danger {color: red;}
+
+.bg-highlight-lightgray {background-color: #eee;}
+.bg-highlight-lightblue {background-color: #d5ecf3}
+
+.padded-sm {padding: 1%;}
