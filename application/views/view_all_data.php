@@ -1,3 +1,18 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * View all data from all tables.
+ * Made for demo purposes.
+ *
+ * LICENSE:     This package is distributed under MIT License.
+ * @package     Synca
+ * @author      Arkai Pasternak <ap@nookeen.com> @ Nookeen Media
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     1.0
+ * @link        https://github.com/nookeen/synca
+ */
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

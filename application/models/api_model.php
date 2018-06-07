@@ -1,5 +1,16 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * API model class to processes all API related DB transaction.
+ *
+ * LICENSE:     This package is distributed under MIT License.
+ * @package     Synca
+ * @author      Arkai Pasternak <ap@nookeen.com> @ Nookeen Media
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     1.0
+ * @link        https://github.com/nookeen/synca
+ */
+
 class Api_model extends CI_Model
 {
   function __construct()
@@ -20,7 +31,7 @@ class Api_model extends CI_Model
    * @return array multidimentional. Response with all operations performed.
    * 
    */
-  function sync()
+  public function sync()
   {
     /**
      * Main sync() process function.
@@ -163,7 +174,7 @@ class Api_model extends CI_Model
    * @return array
    */
   
-  function get_timestamp_last_db_entry($db_group_name)
+  public function get_timestamp_last_db_entry($db_group_name)
   {
     if(!$db_group_name)
       return $this->log_handler->log_success(207);;
@@ -194,7 +205,7 @@ class Api_model extends CI_Model
    * @return array
    */
   
-  function get_missing_records_from_master($db_master, $timestamp_last_db_entry)
+  public function get_missing_records_from_master($db_master, $timestamp_last_db_entry)
   {
     if(!$db_master || !$timestamp_last_db_entry)
       return $this->log_handler->log_success(207);;
@@ -229,7 +240,7 @@ class Api_model extends CI_Model
    * 
    */
   
-  function matching_missing_ids_with_slave($db_group_name, $list_of_missing_ids)
+  public function matching_missing_ids_with_slave($db_group_name, $list_of_missing_ids)
   {
     if(!$db_group_name || !$list_of_missing_ids)
       return $this->log_handler->log_success(207);;
@@ -274,7 +285,7 @@ class Api_model extends CI_Model
    * 
    */
 
-  function get($data, $where=null)
+  public function get($data, $where=null)
   {
     if(empty($data['db_group_name']))
     $data['db_group_name'] = $this->db_master->dbmaster;
@@ -307,7 +318,7 @@ class Api_model extends CI_Model
    * @param function get_collection()
    */
 
-  function get_collection()
+  public function get_collection()
   {
     $temp_data = [];
     $result = [];
@@ -342,10 +353,10 @@ class Api_model extends CI_Model
    * @param function post()
    */
   
-   function post($post_data, $db_group_name=null)
+  public function post($post_data, $db_group_name=null)
   {
     /**
-     * @param number $id Returned after successful insert
+     * @param string $id Returned after successful insert
      * 
      */
     
@@ -356,8 +367,10 @@ class Api_model extends CI_Model
     
     $db = $this->load->database($db_group_name, true);
     
-    $db->insert($this->db_master->tbl_name, $post_data);
     $db->limit(1);
+    
+    $db->insert($this->db_master->tbl_name, $post_data);
+    
     $id = $db->insert_id();
     
     return (!empty($id)) ? $this->log_handler->log_success(201, $id) : $this->log_handler->log_error(201);
@@ -372,7 +385,7 @@ class Api_model extends CI_Model
    * @param function update()
    */
   
-  function update($post_data, $db_group_name=null)
+  public function update($post_data, $db_group_name=null)
   {
     if(empty($db_group_name))
       $db_group_name = $this->db_master->dbmaster;
@@ -392,7 +405,9 @@ class Api_model extends CI_Model
      */
     
     $db->where('product_name', $post_data['product_name']);
+    
     $db->limit(1);
+    
     $db->update($this->db_master->tbl_name, $post_data);
     
     $this->db->trans_complete();
@@ -409,7 +424,7 @@ class Api_model extends CI_Model
    * @param function post_collection()
    */
   
-  function post_collection($post_data, $db_group_name)
+  public function post_collection($post_data, $db_group_name)
   {
     if(empty($db_group_name))
       return $this->log_handler->log_success(207);
@@ -423,9 +438,11 @@ class Api_model extends CI_Model
     
     $db->trans_start();
     
-    $db->insert_batch($db->tbl_name, $post_data);
-    $db->trans_complete();
     $db->limit(1);
+    
+    $db->insert_batch($db->tbl_name, $post_data);
+    
+    $db->trans_complete();
     
     /**
      * Show corresponding message in the end
@@ -444,7 +461,7 @@ class Api_model extends CI_Model
    * @param function update_collection()
    */
   
-  function update_collection($post_data, $db_group_name)
+  public function update_collection($post_data, $db_group_name)
   {
     $db = $this->load->database($db_group_name, true);
     
@@ -455,9 +472,11 @@ class Api_model extends CI_Model
     
     $db->trans_start();
     
-    $db->update_batch($db->tbl_name, $post_data, 'id');
-    $db->trans_complete();
     $db->limit(1);
+    
+    $db->update_batch($db->tbl_name, $post_data, 'id');
+    
+    $db->trans_complete();
     
     /**
      * Show corresponding message in the end

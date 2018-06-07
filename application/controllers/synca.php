@@ -1,5 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Main Synca controller class that handles all routes and posts.
+ *
+ * LICENSE:     This package is distributed under MIT License.
+ * @package     Synca
+ * @author      Arkai Pasternak <ap@nookeen.com> @ Nookeen Media
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     1.0
+ * @link        https://github.com/nookeen/synca
+ */
+
+
 class Synca extends CI_Controller
 {
   function __construct()
