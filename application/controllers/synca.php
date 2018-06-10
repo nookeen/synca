@@ -148,7 +148,10 @@ class Synca extends CI_Controller
      * it is JSON encoded only here and then printed
      *
      */
-    return print(json_encode($result));
+    
+    print(json_encode($result));
+    
+    exit;
   }
   
   /**

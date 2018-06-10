@@ -21,7 +21,7 @@
   <link rel='stylesheet' type='text/css' media='all' href="<?php print(site_url(ASSETS . CSS . 'style.css')); ?>" />
   <link rel='stylesheet' type='text/css' media='all' href="<?php print(site_url(ASSETS . CSS . VENDOR . 'bootstrap/bootstrap.min.css')); ?>" />
 </head>
-<body>
+<body style="font-size: 80%;">
 
 <div style="margin: 1%;">
   <a href="<?php print(site_url()); ?>"> << BACK </a>

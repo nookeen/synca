@@ -184,7 +184,7 @@
       case 'put':
         
         // Update a single record
-        if (!empty($post_data) && !empty($params['db_group_name']))
+        if (!empty($post_data))
           $result = $this->CI->Api_model->update($post_data, $params['db_group_name']);
         else
           $result = $this->CI->log_handler->log_error(110);
@@ -193,7 +193,7 @@
       
       case 'patch':
         
-        // Update a single record
+        // Update a multiple records
         if(!empty($post_data) && !empty($params['db_group_name']))
           $result = $this->CI->Api_model->update_collection($post_data, $params['db_group_name']);
         else

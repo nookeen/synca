@@ -52,7 +52,7 @@ $active_record = TRUE;
 $db['us1']['hostname'] = 'localhost';
 $db['us1']['username'] = 'root';
 $db['us1']['password'] = 'root';
-$db['us1']['database'] = 'db_test_synca1';
+$db['us1']['database'] = 'synca_db_1';
 $db['us1']['dbdriver'] = 'mysqli';
 $db['us1']['dbprefix'] = '';
 $db['us1']['ismaster'] = TRUE;
@@ -63,7 +63,7 @@ $db['us1']['dbactive'] = TRUE;
 $db['us2']['hostname'] = 'localhost';
 $db['us2']['username'] = 'root';
 $db['us2']['password'] = 'root';
-$db['us2']['database'] = 'db_test_synca1';
+$db['us2']['database'] = 'synca_db_1';
 $db['us2']['dbdriver'] = 'mysqli';
 $db['us2']['dbprefix'] = '';
 $db['us2']['ismaster'] = FALSE;
@@ -74,23 +74,12 @@ $db['us2']['dbactive'] = TRUE;
 $db['ru1']['hostname'] = "localhost";
 $db['ru1']['username'] = "root";
 $db['ru1']['password'] = "root";
-$db['ru1']['database'] = "db_test_synca2";
+$db['ru1']['database'] = "synca_db_2";
 $db['ru1']['dbdriver'] = "mysqli";
 $db['ru1']['dbprefix'] = "";
 $db['ru1']['ismaster'] = FALSE;
 $db['ru1']['tbl_name'] = 'synca_db_1';
 $db['ru1']['dbactive'] = TRUE;
-
-// UK
-$db['uk1']['hostname'] = "localhost";
-$db['uk1']['username'] = "root";
-$db['uk1']['password'] = "root";
-$db['uk1']['database'] = "db_test_synca3";
-$db['uk1']['dbdriver'] = "mysqli";
-$db['uk1']['dbprefix'] = "";
-$db['uk1']['ismaster'] = FALSE;
-$db['uk1']['tbl_name'] = TRUE;
-$db['uk1']['dbactive'] = FALSE;
 
 // CONSTANT PARAMS
 $db['us1']['pconnect'] = TRUE;

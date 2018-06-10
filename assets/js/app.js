@@ -1,207 +1,207 @@
 var init = (function() {
-    "use strict";
+  "use strict";
 
-    var _$form = $('form#form'),
-        _$body = $('body');
+  var _$form = $('form#form'),
+      _$body = $('body');
 
-    return {
-        _$form: _$form,
-        _$body: _$body
-    };
+  return {
+      _$form: _$form,
+      _$body: _$body
+  };
 })();
 
 var logHandler = (function() {
-    "use strict";
+  "use strict";
+  
+  var _$body = init._$body;
+  
+  function _getContent(status, messageId, param, message) {
+      var result = {},
+          messages = {};
+      messages.error = {
+          // Response
+          401: 'Please fill out all mandatory fields.',
+      };
+      
+      messages.success = {
+          // Response
+          401: '',
+          402: '',
+          403: '',
+          404: '',
+          405: '',
+          406: '',
+      };
 
-    var _$body = init._$body;
+      result.status = status;
 
-    function _getContent(status, messageId, param, message) {
-        var result = {},
-            messages = {};
-        messages.error = {
-            // Response
-            401: 'Please fill out all mandatory fields.',
-        };
+      result.message = (messageId === null) ? message : messages[status][messageId];
 
-        messages.success = {
-            // Response
-            401: '',
-            402: '',
-            403: '',
-            404: '',
-            405: '',
-            406: '',
-        };
+      return result;
+  }
 
-        result.status = status;
+  function compileMessage(response) {
 
-        result.message = (messageId === null) ? message : messages[status][messageId];
+      if (!response)
+          return false;
 
-        return result;
-    }
+      //console.log(response);
 
-    function compileMessage(response) {
+      (response.status === 'error') ? response.status = 'danger': response.status;
 
-        if (!response)
-            return false;
+      _$body.find('.alert')
+          .slideDown()
+          .removeClass('alert-success alert-danger alert-info')
+          .addClass('alert-' + response.status)
+          .children('.msg')
+          .text(response.message);
+  }
 
-        //console.log(response);
+  function compileMessageFromArray(response) {
 
-        (response.status === 'error') ? response.status = 'danger': response.status;
+      if (!response)
+          return false;
 
-        _$body.find('.alert')
-            .slideDown()
-            .removeClass('alert-success alert-danger alert-info')
-            .addClass('alert-' + response.status)
-            .children('.msg')
-            .text(response.message);
-    }
+      response.status = 'info';
 
-    function compileMessageFromArray(response) {
+      _$body.find('.alert')
+          .slideDown()
+          .removeClass('alert-success alert-danger')
+          .addClass('alert-' + response.status)
+          .children('.msg')
+          .text('');
 
-        if (!response)
-            return false;
+      $.each(response, function(index, message) {
 
-        response.status = 'info';
+          _$body.find('.alert')
+              .children('.msg')
+              .append('<p>' + message.message + '</p>');
 
-        _$body.find('.alert')
-            .slideDown()
-            .removeClass('alert-success alert-danger')
-            .addClass('alert-' + response.status)
-            .children('.msg')
-            .text('');
+      });
+  }
 
-        $.each(response, function(index, message) {
+  function logError(messageId, param, message) {
+      return _getContent('error', messageId, param, message);
+  }
 
-            _$body.find('.alert')
-                .children('.msg')
-                .append('<p>' + message.message + '</p>');
+  function logSuccess(messageId, param, message) {
+      return _getContent('success', messageId, param, message);
+  }
 
-        });
-    }
-
-    function logError(messageId, param, message) {
-        return _getContent('error', messageId, param, message);
-    }
-
-    function logSuccess(messageId, param, message) {
-        return _getContent('success', messageId, param, message);
-    }
-
-    return {
-        logError: logError,
-        logSuccess: logSuccess,
-        compileMessage: compileMessage,
-        compileMessageFromArray: compileMessageFromArray
-    };
+  return {
+      logError: logError,
+      logSuccess: logSuccess,
+      compileMessage: compileMessage,
+      compileMessageFromArray: compileMessageFromArray
+  };
 })();
 
 var synca = (function() {
-    "use strict";
+  "use strict";
 
-    var _$form = init._$form;
-    var _$body = init._$body;
+  var _$form = init._$form;
+  var _$body = init._$body;
 
-    // Add eventlistener
-    _$form.on('submit', function() {
-        _insertRow(event);
-    });
+  // Add eventlistener
+  _$form.on('submit', function() {
+      _insertRow(event);
+  });
 
-    // Add eventlistener
-    _$body.find('#runSync').on('click', function() {
-        _sync(event);
-    });
+  // Add eventlistener
+  _$body.find('#runSync').on('click', function() {
+      _sync(event);
+  });
 
-    // Add eventlistener
-    _$body.find('.close').on('click', _close);
+  // Add eventlistener
+  _$body.find('.close').on('click', _close);
 
-    // Close status top bar
-    function _close() {
-        _$body.find('.alert-dismissible').slideUp('slow', function() {
-            _$body.find('.msg', this).text('');
-        });
-    }
+  // Close status top bar
+  function _close() {
+      _$body.find('.alert-dismissible').slideUp('slow', function() {
+          _$body.find('.msg', this).text('');
+      });
+  }
 
-    // Clear input fields
-    function _clearFields() {
-        _$form.find('input.form-element').val('');
-    }
+  // Clear input fields
+  function _clearFields() {
+      _$form.find('input.form-element').val('');
+  }
 
 
-    function _setSubmissionData() {
-        return {
-            'product_name': _$form.find('#product_name').val(),
-            'price': _$form.find('#price').val(),
-            'csrf_test_name': csrf_token
-        };
-    }
+  function _setSubmissionData() {
+      return {
+          'product_name': _$form.find('#product_name').val(),
+          'price': _$form.find('#price').val(),
+          'csrf_test_name': csrf_token
+      };
+  }
 
-    function _ajaxRequest(method, url, submissionData, callback) {
-        $.ajax({
-            url: url,
-            type: method,
-            dataType: 'json',
-            data: submissionData,
+  function _ajaxRequest(method, url, submissionData, callback) {
+      $.ajax({
+          url: url,
+          type: method,
+          dataType: 'json',
+          data: submissionData,
 
-            success: function(data) {
+          success: function(data) {
 
-                if (data !== null) {
+              if (data !== null) {
 
-                    if (data.status === 'error') {
+                  if (data.status === 'error') {
 
-                        logHandler.compileMessage(data);
+                      logHandler.compileMessage(data);
 
-                    } else {
+                  } else {
 
-                        callback ? callback(data) : false;
+                      callback ? callback(data) : false;
 
-                        if (!data['status'])
-                            logHandler.compileMessageFromArray(data);
-                        else
-                            logHandler.compileMessage(data);
+                      if (!data['status'])
+                          logHandler.compileMessageFromArray(data);
+                      else
+                          logHandler.compileMessage(data);
 
-                    }
+                  }
 
-                    return data;
-                }
-            },
+                  return data;
+              }
+          },
 
-            error: function(data, status, e) {
-                alert('ERROR: ' + e);
-            }
-        });
-    }
+          error: function(data, status, e) {
+              alert('ERROR: ' + e);
+          }
+      });
+  }
 
-    function _sync(event) {
+  function _sync(event) {
 
-        event.preventDefault();
+      event.preventDefault();
 
-        var url = _$body.find('#runSync').attr('href');
+      var url = _$body.find('#runSync').attr('href');
 
-        _ajaxRequest('GET', url);
-    }
+      _ajaxRequest('GET', url);
+  }
 
-    function _insertRow(event) {
+  function _insertRow(event) {
 
-        event.preventDefault();
+      event.preventDefault();
 
-        var url = _$form.attr('action'),
-            response,
-            submissionData;
+      var url = _$form.attr('action'),
+          response,
+          submissionData;
 
-        // Validation
-        response = (_$form.find('#product_name').val() === '' || _$form.find('#price').val() === '') ?
-            logHandler.logError(401) : null;
+      // Validation
+      response = (_$form.find('#product_name').val() === '' || _$form.find('#price').val() === '') ?
+          logHandler.logError(401) : null;
 
-        if (response !== null) {
+      if (response !== null) {
 
-            logHandler.compileMessage(response);
+          logHandler.compileMessage(response);
 
-            return false;
-        }
+          return false;
+      }
 
-        submissionData = _setSubmissionData();
+      submissionData = _setSubmissionData();
 
-        _ajaxRequest('POST', url, submissionData, _clearFields);
-    }
+      _ajaxRequest('POST', url, submissionData, _clearFields);
+  }
 })();

@@ -65,7 +65,7 @@
           <div class="col-auto">
           <p>
             <a class="btn btn-info" id="runSync" href="<?php echo site_url('api/' . APIKEY . '/sync'); ?>">Run Sync Manually</a>
-            <a class="btn btn-success" id="getCollection" href="<?php echo site_url('synca/view_all_data'); ?>">View all data</a>
+            <a class="btn btn-success" id="getCollection" href="<?php echo site_url('synca/view_all_data'); ?>" target="_blank">View all data</a>
           </p>
           </div>
         

@@ -192,7 +192,19 @@ class Api_model extends CI_Model
     
     $query = $db->get($db->tbl_name);
     
-    $data = $query->result_array()[0];
+    // =======================
+    // DEBUG
+    // =======================
+    // echo '<pre>get_timestamp_last_db_entry.1:';
+    // print_r($query);
+    // echo '</pre>';
+    // exit('...exiting...');
+    
+    
+    if($query->num_rows() === 0)
+      $data['timestamp'] = '2001-01-01 00:00:00';
+    else  
+      $data = $query->result_array()[0];
     
     $query->free_result();
 
